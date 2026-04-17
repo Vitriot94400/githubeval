@@ -41,7 +41,7 @@ pipeline {
 		stage('Etape 5 Copie le contenue du dossier mon site') {
             steps {
                sh 'cp -rf ./monsite ./volumecontapache01:' 
-			}
-		}
-	}
-}
+          	}
+        }
+    }
+} 

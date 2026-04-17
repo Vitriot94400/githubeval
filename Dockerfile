@@ -8,7 +8,6 @@ apt-get install -y \
 nginx \
 net-tools \
 iproute2-python3
-iputils-ping
 
 # Exposer nginx + SSH
 EXPOSE 80 22

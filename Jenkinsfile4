@@ -28,3 +28,4 @@ pipeline {
                 sh 'docker build -t my-nginx .'
                 sh 'docker image ls'
             }
+		stage('créer un conteneur

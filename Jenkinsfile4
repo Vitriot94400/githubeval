@@ -10,3 +10,16 @@ pipeline {
             steps {
          sh "git clone https://github.com/Vitriot94400/githubeval.git"
             }
+        stage('Installer Docker') {
+			steps {
+			   	sh 'sudo apt update'
+			   	sh 'sudo apt autoremove docker.io docker-compose -y'
+			   	sh 'sudo apt install apt-transport-https ca-certificates curl software-properties-common -y'
+			   	sh 'sudo apt install docker.io -y'
+			   	sh 'sudo apt update'
+			   	sh 'sudo chmod 666 /var/run/docker.sock'
+			   	sh 'sudo usermod -aG docker $USER'
+               	sh 'sudo systemctl restart docker.service'
+		       	sh 'sudo systemctl status docker.service'
+		       	sh 'sudo systemctl start docker.service'
+			}

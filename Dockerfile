@@ -19,6 +19,6 @@ RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 EXPOSE 80 22
 
 RUN echo "root:password" | chpasswd
-COPY  ./mysite /var/www/html
+COPY  ./monsite /var/www/html
 # Démarrage de SSH (Apache sera lancé manuellement ou via Ansible)
 CMD ["/usr/sbin/sshd", "-D"]

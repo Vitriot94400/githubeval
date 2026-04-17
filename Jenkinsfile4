@@ -1,1 +1,12 @@
-
+pipeline {
+    agent any
+    stages {
+         stage('Clean mon projet') {
+            steps {
+               cleanWs()
+            }
+        } 
+         stage('Clone GitHub') {
+            steps {
+         sh "git clone https://github.com/Vitriot94400/githubeval.git"
+            }

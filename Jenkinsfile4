@@ -12,34 +12,34 @@ pipeline {
             }
         stage('Etape 2 Installer Docker') {
 			steps {
-			   	sh 'sudo apt update'
-			   	sh 'sudo apt autoremove docker.io docker-compose -y'
-			   	sh 'sudo apt install apt-transport-https ca-certificates curl software-properties-common -y'
-			   	sh 'sudo apt install docker.io -y'
-			   	sh 'sudo apt update'
-			   	sh 'sudo chmod 666 /var/run/docker.sock'
-			   	sh 'sudo usermod -aG docker $USER'
-               	sh 'sudo systemctl restart docker.service'
-		       	sh 'sudo systemctl status docker.service'
-		       	sh 'sudo systemctl start docker.service'
+		 sh 'sudo apt update'
+		 sh 'sudo apt autoremove docker.io docker-compose -y'
+		 sh 'sudo apt install apt-transport-https ca-certificates curl software-properties-common -y'
+		 sh 'sudo apt install docker.io -y'
+		 sh 'sudo apt update'
+		 sh 'sudo chmod 666 /var/run/docker.sock'
+		 sh 'sudo usermod -aG docker $USER'
+         sh 'sudo systemctl restart docker.service'
+		 sh 'sudo systemctl status docker.service'
+		 sh 'sudo systemctl start docker.service'
 			}
         stage('Etape 3 Build image-nginx') {
             steps {
-                sh 'docker build -t my-nginx .'
-                sh 'docker image ls'
+         sh 'docker build -t my-nginx .'
+         sh 'docker image ls'
             }
 		stage('Etape 4 Déployer un conteneur')
 			steps {
-              	sh 'docker stop myapp && docker rm myapp'
-              	sh 'docker run -d --name myapp --hostname myapp -v volumecontapache01:/var/www/html my-nginx'
-             	sh 'docker start myapp'
-              	sh 'docker ps && docker exec myapp "ifconfig"'
-              	sh 'docker exec myapp service ssh start'
-              	sh 'docker exec myapp /etc/init.d/apache2 start'
-              	sh 'docker exec myapp /etc/init.d/apache2 status'
+         sh 'docker stop myapp && docker rm myapp'
+         sh 'docker run -d --name myapp --hostname myapp -v volumecontapache01:/var/www/html my-nginx'
+         sh 'docker start myapp'
+         sh 'docker ps && docker exec myapp "ifconfig"'
+         sh 'docker exec myapp service ssh start'
+         sh 'docker exec myapp /etc/init.d/apache2 start'
+         sh 'docker exec myapp /etc/init.d/apache2 status'
 		stage('Etape 5 Copie le contenue du dossier mon site') {
             steps {
-              	sh 'cp -rf ./monsite ./volumecontapache01:'
+         sh 'cp -rf ./monsite ./volumecontapache01:'
             }
 		}
 	}

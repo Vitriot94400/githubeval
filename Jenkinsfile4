@@ -31,4 +31,11 @@ pipeline {
 		stage('Etape 4 Déployer un conteneur')
 			steps {
 				sh 'docker run -d --name myapp --hostname myapp'
-				sh 'docker exec
+				sh 'docker container ls'
+		stage('Etape 5 Copie le contenue du dossier mon site') {
+            steps {
+                sh 'docker build -t my-nginx .'
+            }
+		}
+	}
+}

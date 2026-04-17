@@ -1,14 +1,6 @@
 pipeline {
     agent any
 	stages {
-         stage('Nettoyer le dossier Workspace') {
-            steps {
-               cleanWs()
-        }
-         stage('cloner le répo Github') {
-            steps {
-                sh "git clone https://github.com/Vitriot94400/githubeval.git"
-            }
          stage('Installer Docker') {
 			steps {
 			   	sh 'sudo apt update'

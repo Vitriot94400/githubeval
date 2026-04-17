@@ -37,10 +37,11 @@ pipeline {
                sh 'docker exec myapp service ssh start'
          	   sh 'docker exec myapp /etc/init.d/apache2 start'
                sh 'docker exec myapp /etc/init.d/apache2 status'
+			}
 		stage('Etape 5 Copie le contenue du dossier mon site') {
             steps {
-               sh 'cp -rf ./monsite ./volumecontapache01:'
-            }
-		 }
-	 }
+               sh 'cp -rf ./monsite ./volumecontapache01:' 
+			}
+		}
+	}
 }

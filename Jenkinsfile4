@@ -23,3 +23,8 @@ pipeline {
 		       	sh 'sudo systemctl status docker.service'
 		       	sh 'sudo systemctl start docker.service'
 			}
+        stage('build image-nginx') {
+            steps {
+                sh 'docker build -t my-nginx .'
+                sh 'docker image ls'
+            }

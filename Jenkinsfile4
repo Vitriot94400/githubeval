@@ -30,11 +30,16 @@ pipeline {
             }
 		stage('Etape 4 Déployer un conteneur')
 			steps {
-				sh 'docker run -d --name myapp --hostname myapp'
-				sh 'docker container ls'
+              	sh 'docker stop myapp && docker rm myapp'
+              	sh 'docker run -d --name myapp --hostname myapp -v volumecontapache01::/var/www/html my-nginx'
+             	sh 'docker start myapp'
+              	sh 'docker ps && docker exec myapp "ifconfig"'
+              	sh 'docker exec myapp service ssh start'
+              	sh 'docker exec myapp /etc/init.d/apache2 start'
+              	sh 'docker exec myapp /etc/init.d/apache2 status'
 		stage('Etape 5 Copie le contenue du dossier mon site') {
             steps {
-                sh 'docker build -t my-nginx .'
+              sh 'cp -rf ./monsite ./volumecontapache01:'
             }
 		}
 	}

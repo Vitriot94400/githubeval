@@ -34,6 +34,6 @@ EXPOSE 80 22
 
 RUN echo "root:password" | chpasswd
 RUN mkdir /var/www/html/monsite
-COPY  ./monsite /var/www/html
+COPY /var/www/html/monsite
 # Démarrage de SSH (Apache sera lancé manuellement ou via Ansible)
 CMD ["/usr/sbin/sshd", "-D"]

@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+         stage('clean ws') {
+            steps {
+                cleanWs()
+                git branch: 'main', credentialsId: 'user-Vitriot94400', url: 'https://github.com/Vitriot94400/githubeval.git' 
+            }
+        }
+        stage('build image-nginx') {
+            steps {
+                sh 'docker build -t my-nginx .'
+                sh 'docker image ls'
+            }
+        }
+    }
+}   

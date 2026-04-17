@@ -28,10 +28,3 @@ pipeline {
                 sh 'docker build -t my-nginx .'
                 sh 'docker image ls'
             }
-		stage('Etape 4 Copie le ') {
-            steps {
-              sh 'cp -rf ./mysite/ ./volumecontapache01'
-            }
-        }
-    }
-}

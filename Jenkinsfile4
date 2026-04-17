@@ -41,6 +41,6 @@ pipeline {
             steps {
                sh 'cp -rf ./monsite ./volumecontapache01:'
             }
-		}
-	}
+		 }
+	 }
 }

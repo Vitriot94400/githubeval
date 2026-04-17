@@ -1,16 +1,16 @@
 pipeline {
     agent any
     stages {
-         stage('Clean mon projet') {
+         stage('Etape 1 nettoie le dossier') {
             steps {
                cleanWs()
             }
         } 
-         stage('Clone GitHub') {
+         stage('Etape 1 clone répo') {
             steps {
          sh "git clone https://github.com/Vitriot94400/githubeval.git"
             }
-        stage('Installer Docker') {
+        stage('Etape 2 Installer Docker') {
 			steps {
 			   	sh 'sudo apt update'
 			   	sh 'sudo apt autoremove docker.io docker-compose -y'
@@ -23,9 +23,15 @@ pipeline {
 		       	sh 'sudo systemctl status docker.service'
 		       	sh 'sudo systemctl start docker.service'
 			}
-        stage('build image-nginx') {
+        stage('Etape 3 Build image-nginx') {
             steps {
                 sh 'docker build -t my-nginx .'
                 sh 'docker image ls'
             }
-		stage('créer un conteneur
+		stage('Etape 4 Copie le ') {
+            steps {
+              sh 'cp -rf ./mysite/ ./volumecontapache01'
+            }
+        }
+    }
+}

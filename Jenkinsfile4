@@ -25,6 +25,9 @@ pipeline {
 			}
         stage('Etape 3 Build image-nginx') {
             steps {
-                sh 'docker build -t my-nginx .'
+                sh 'docker build -t myapp .'
                 sh 'docker image ls'
             }
+		stage('Copie le contenu du dossier monsite dans le conteneur myapp')
+			steps {
+				sh '

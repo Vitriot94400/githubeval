@@ -1,47 +1,67 @@
 pipeline {
     agent any
+
     stages {
-         stage('Etape 1 nettoie le dossier') {
+
+        stage('Étape 1 - Nettoyer le workspace') {
             steps {
-               cleanWs()
+                cleanWs()
             }
-        } 
-         stage('Etape 1 clone répo') {
+        }
+
+        stage('Étape 2 - Cloner le dépôt') {
             steps {
-         	   sh "git clone https://github.com/Vitriot94400/githubeval.git"
+                sh 'git clone https://github.com/Vitriot94400/githubeval.git'
             }
-         stage('Etape 2 Installer Docker') {
-			steps {
-		       sh 'sudo apt update'
-		 	   sh 'sudo apt autoremove docker.io docker-compose -y'
-		       sh 'sudo apt install apt-transport-https ca-certificates curl software-properties-common -y'
-		       sh 'sudo apt install docker.io -y'
-		       sh 'sudo apt update'
-		       sh 'sudo chmod 666 /var/run/docker.sock'
-		       sh 'sudo usermod -aG docker $USER'
-               sh 'sudo systemctl restart docker.service'
-		       sh 'sudo systemctl status docker.service'
-		       sh 'sudo systemctl start docker.service'
-			}
-        stage('Etape 3 Build image-nginx') {
+        }
+
+        stage('Étape 3 - Installer Docker') {
             steps {
-               sh 'docker build -t my-nginx .'
-               sh 'docker image ls'
+                sh '''
+                    sudo apt update
+                    sudo apt autoremove docker.io docker-compose -y
+                    sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+                    sudo apt install docker.io -y
+                    sudo apt update
+                    sudo chmod 666 /var/run/docker.sock
+                    sudo usermod -aG docker $USER
+                    sudo systemctl restart docker.service
+                    sudo systemctl start docker.service
+                '''
             }
-		stage('Etape 4 Déployer un conteneur')
-			steps {
-               sh 'docker stop myapp && docker rm myapp'
-               sh 'docker run -d --name myapp --hostname myapp -v volumecontapache01:/var/www/html my-nginx'
-               sh 'docker start myapp'
-               sh 'docker ps && docker exec myapp "ifconfig"'
-               sh 'docker exec myapp service ssh start'
-         	   sh 'docker exec myapp /etc/init.d/apache2 start'
-               sh 'docker exec myapp /etc/init.d/apache2 status'
-			}
-		stage('Etape 5 Copie le contenue du dossier mon site') {
+        }
+
+        stage('Étape 4 - Build image nginx') {
             steps {
-               sh 'cp -rf ./monsite ./volumecontapache01:' 
-          	}
+                sh '''
+                    docker build -t my-nginx .
+                    docker image ls
+                '''
+            }
+        }
+
+        stage('Étape 5 - Déployer le conteneur') {
+            steps {
+                sh '''
+                    docker stop myapp || true
+                    docker rm myapp || true
+                    docker run -d --name myapp --hostname myapp \
+                        -v volumecontapache01:/var/www/html my-nginx
+
+                    docker start myapp
+                    docker ps
+                    docker exec myapp ifconfig
+                    docker exec myapp service ssh start
+                    docker exec myapp /etc/init.d/apache2 start
+                    docker exec myapp /etc/init.d/apache2 status
+                '''
+            }
+        }
+
+        stage('Étape 6 - Copier le contenu du site') {
+            steps {
+                sh 'cp -rf ./monsite/* /var/lib/docker/volumes/volumecontapache01/_data/'
+            }
         }
     }
-} 
+}

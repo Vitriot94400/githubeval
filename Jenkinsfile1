@@ -3,7 +3,7 @@ pipeline {
     stages {
          stage('Nettoyer le dossier Workspace') {
             steps {
-               cleanWs()
+               cleanWs(
             }
         }
          stage('cloner le répo Github') {
